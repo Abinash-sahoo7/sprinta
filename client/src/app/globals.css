@@ -1,0 +1,89 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root,
+.app {
+  height: 100%;
+  width: 100%;
+  @apply text-sm;
+  @apply bg-white;
+  @apply dark:bg-black;
+}
+
+@theme {
+  --color-white: #ffffff;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-500: #6b7280;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-blue-200: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  
+  --color-bg: #101214;
+  --color-secondary: #1d1f21;
+  --color-tertiary: #3b3d40;
+  --color-stroke: #2d3135;
+  --color-blue-primary: #0275ff;
+}
+
+@theme dark {
+  --color-dark-bg: #101214;
+  --color-dark-secondary: #1d1f21;
+  --color-dark-tertiary: #3b3d40;
+  --color-blue-primary: #0275ff;
+  --color-stroke-dark: #2d3135;
+}
+
+
+
+/* TIMELINE STYLING */
+.timeline ._3_ygE {
+  @apply rounded-tl-md border border-r-0 border-[#e6e4e4] dark:border-[#2d3135];
+}
+.timeline ._2eZzQ {
+  @apply border-[#e6e4e4] dark:border-[#2d3135];
+}
+.timeline ._2dZTy {
+  @apply fill-white dark:fill-[#1d1f21];
+}
+.timeline ._2dZTy:nth-child(even) {
+  @apply fill-[#f5f5f5] dark:fill-[#3b3d40];
+}
+.timeline ._35nLX {
+  @apply fill-white stroke-[#e6e4e4] dark:fill-[#1d1f21] dark:stroke-[#2d3135];
+}
+.timeline ._9w8d5 {
+  @apply fill-[#333] dark:fill-white;
+}
+.timeline ._34SS0 {
+  @apply bg-white dark:bg-[#1d1f21];
+}
+.timeline ._34SS0:nth-of-type(even) {
+  @apply bg-[#f5f5f5] dark:bg-[#3b3d40];
+}
+.timeline ._RuwuK,
+.timeline ._3rUKi,
+.timeline ._1rLuZ {
+  @apply stroke-[#e6e4e4] dark:stroke-[#2d3135];
+}
+.timeline ._3ZbQT {
+  @apply border-l-0 border-[#e6e4e4] dark:border-[#2d3135];
+}
+.timeline ._3T42e {
+  @apply bg-white dark:bg-[#101214];
+}
+.timeline ._29NTg {
+  @apply dark:text-[#6b7280];
+}

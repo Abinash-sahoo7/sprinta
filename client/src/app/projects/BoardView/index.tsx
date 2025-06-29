@@ -1,6 +1,6 @@
 import { useGetTasksQuery, useUpdateTaskStatusMutation } from '@/app/state/api';
 import { Task as TaskType } from '@/app/types';
-import { EllipsisVertical, MessageCircle, MessageCircleMore, Plus } from 'lucide-react';
+import { EllipsisVertical, MessageCircleMore, Plus } from 'lucide-react';
 import React, { useState } from 'react'
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -151,7 +151,7 @@ const Task = ({ task }: TaskProps) => {
             {task.attachments && task.attachments.length > 0 &&
                 (
                     <Image
-                        src={`/${task.attachments[0].fileURL}`}
+                        src={`https://sprinta-s3-images.s3.us-east-1.amazonaws.com/${task.attachments[0].fileURL}`}
                         alt={task.attachments[0].fileName}
                         width={400}
                         height={200}
@@ -207,7 +207,7 @@ const Task = ({ task }: TaskProps) => {
                         {task.assignee && (
                             <Image
                                 key={task.assignee.userid}
-                                src={`/${task.assignee.profilePictureUrl}`}
+                                src={`https://sprinta-s3-images.s3.us-east-1.amazonaws.com/${task.assignee.profilePictureUrl}`}
                                 alt={task.assignee.username}
                                 width={30}
                                 height={30}
@@ -217,7 +217,7 @@ const Task = ({ task }: TaskProps) => {
                         {task.author && (
                             <Image
                                 key={task.author.userid}
-                                src={`/${task.author.profilePictureUrl}`}
+                                src={`https://sprinta-s3-images.s3.us-east-1.amazonaws.com/${task.author.profilePictureUrl}`}
                                 alt={task.author.username}
                                 width={30}
                                 height={30}
@@ -243,7 +243,7 @@ const Task = ({ task }: TaskProps) => {
                             task.comments.map((comment) => (
                                 <div key={comment.id} className='mb-3 flex gap-3'>
                                     <Image
-                                        src={`/${comment.user.profilePictureUrl}`}
+                                        src={`https://sprinta-s3-images.s3.us-east-1.amazonaws.com/${comment.user.profilePictureUrl}`}
                                         alt={comment.user.username}
                                         width={32}
                                         height={32}

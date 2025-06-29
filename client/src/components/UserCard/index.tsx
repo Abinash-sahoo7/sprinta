@@ -12,7 +12,7 @@ const UserCard = ({ user }: Props) => {
             {
                 user.profilePictureUrl && (
                     <Image
-                        src={`/p1.png`}
+                        src={`https://sprinta-s3-images.s3.us-east-1.amazonaws.com/p1.png`}
                         alt={user.username}
                         width={50}
                         height={50}

@@ -3,13 +3,12 @@ import React, { useState } from 'react'
 import { useGetProjectsQuery, useGetTasksQuery } from '../state/api'
 import { useAppSelector } from '../redux';
 import { Priority, Project, Task } from '../types';
-import { log } from 'console';
+
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Header from '@/components/Header/index';
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { dataGridClassNames, dataGridSxStyles } from '../lib/utils';
 
-type SelectedTask = string | null;
 
 const taskColumn: GridColDef[] = [
     { field: "title", headerName: "Title", width: 200 },
@@ -32,7 +31,7 @@ const HomePage = () => {
 
     // console.log("tasks : ", tasks);
 
-    const { data: projects, isLoading: projectLoading, isError: projectError } = useGetProjectsQuery();
+    const { data: projects, isLoading: projectLoading } = useGetProjectsQuery();
     const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
     if (taskLoading || projectLoading || allProjectsLoading) return <div>Loading...</div>

@@ -1,5 +1,5 @@
 import Header from '@/components/Header';
-import { Clock, Filter, Grid3X3, List, PlusSquare, Search, Share2, Table, Table2Icon } from 'lucide-react';
+import { Clock, Filter, Grid3X3, List, PlusSquare, Share2, Table2Icon } from 'lucide-react';
 import React, { useState } from 'react'
 import ModelNewProject from './ModelNewProject';
 

@@ -1,17 +1,16 @@
-
 import React from 'react';
 import { Project } from '@/app/types';
 
 type Props = {
     name: string;
-    buttonComponet?: any;
+    buttonComponent?: React.ReactNode;
     isSmallText?: boolean;
     allProjects?: Project[]; // All projects for dropdown
     selectedProjectId?: string | null; // Currently selected project ID
     onProjectSelect?: (projectId: string) => void; // Optional selection handler
 }
 
-const Header = ({ name, buttonComponet, isSmallText = false, allProjects, selectedProjectId, onProjectSelect }: Props) => {
+const Header = ({ name, buttonComponent, isSmallText = false, allProjects, selectedProjectId, onProjectSelect }: Props) => {
 
     const [selectedTask, setSelectedTask] = React.useState(selectedProjectId ?? '');
 
@@ -53,7 +52,7 @@ const Header = ({ name, buttonComponet, isSmallText = false, allProjects, select
                         ))}
                     </select>
                 )}
-                {buttonComponet}
+                {buttonComponent}
             </div>
         </div>
     )

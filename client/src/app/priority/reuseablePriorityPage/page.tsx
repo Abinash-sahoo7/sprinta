@@ -9,7 +9,6 @@ import Header from '@/components/Header/index'
 import ModelNewTask from '@/components/ModelNewTask'
 import TaskCard from '@/components/TaskCard'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { skip } from 'node:test'
 import React, { useState } from 'react'
 
 type Props = {
@@ -77,7 +76,7 @@ const ReuseablePriorityPage = ({ priority }: Props) => {
     const [isModelNewTaskOpen, setIsModelNewtaskOpen] = useState(false);
 
     const userId = 1;
-    const { data: tasks, isLoading, isError } = useGetTasksByUserQuery(userId || 0, {
+    const { data: tasks, isLoading } = useGetTasksByUserQuery(userId || 0, {
         skip: userId === null,
     });
 
@@ -93,7 +92,7 @@ const ReuseablePriorityPage = ({ priority }: Props) => {
             />
 
             <Header name='Priority page'
-                buttonComponet={
+                buttonComponent={
                     <button
                         className='mr-3 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700'
                         onClick={() => setIsModelNewtaskOpen(true)}

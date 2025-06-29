@@ -80,7 +80,7 @@ const columns: GridColDef[] = [
     },
 ]
 
-const page = () => {
+const UsersPage = () => {
 
     const { data: users, isLoading, isError } = useGetUsersQuery();
     const isDarkMode = useAppSelector(state => state.global.isDarkMode);
@@ -110,4 +110,4 @@ const page = () => {
     )
 }
 
-export default page
+export default UsersPage

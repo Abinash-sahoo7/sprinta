@@ -13,7 +13,6 @@ import {
     GridColDef,
     FilterPanelTrigger,
 } from '@mui/x-data-grid';
-import Image from 'next/image';
 import { dataGridClassNames, dataGridSxStyles } from '../lib/utils';
 import Tooltip from '@mui/material/Tooltip';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';

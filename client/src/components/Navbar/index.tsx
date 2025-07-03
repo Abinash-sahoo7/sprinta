@@ -1,11 +1,14 @@
 import React from 'react'
-import { Home, LucideIcon } from 'lucide-react';
+import { Home, LucideIcon, User } from 'lucide-react';
 import { IconNode, Menu, Moon, Search, Settings, Sun } from 'lucide-react'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '@/app/redux'
 import { setIsDarkMode, setIsSidebarCollapsed } from '@/app/state'
 import { usePathname } from 'next/navigation'
+import { useGetAuthUserQuery } from '@/app/state/api';
+import { signOut } from 'aws-amplify/auth';
+import Image from 'next/image';
 
 const Navbar = () => {
 
@@ -13,6 +16,19 @@ const Navbar = () => {
     const isSidebarcollasped = useAppSelector((state) => state.global.isSidebarCollapsed);
     const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
+    const { data: currentUser } = useGetAuthUserQuery({});
+    console.log(currentUser);
+
+    const handleSignOut = async () => {
+        try {
+            await signOut();
+        } catch (error: any) {
+            console.log('Error while sign out the user : ', error);
+        }
+    }
+
+    if (!currentUser) return null;
+    const currentUserDetails = currentUser?.userDetails;
 
 
     return (
@@ -45,9 +61,32 @@ const Navbar = () => {
                     <Settings className='h-6 w-6 cursor-pointer text-gray-500 dark:text-white' />
                 </Link>
                 <div className='ml-2 mr-5 hidden min-h-[2em] w-[0.1em] bg-gray-200 dark:bg-gray-800 md:inline-block'></div>
+
+                <div className='hidden items-center justify-between md:flex'>
+                    <div className='items-center flex justify-center h-9 w-9 hover:bg-gray-100'>
+                        {
+                            !!currentUserDetails?.profilePictureUrl ? (
+                                <Image
+                                    src={`https://sprinta-s3-images.s3.us-east-1.amazonaws.com/${currentUserDetails.profilePictureUrl}`}
+                                    alt={currentUserDetails.username}
+                                    width={100}
+                                    height={50}
+                                    className='h-full rounded-full object-cover'
+                                />
+                            ) : (
+                                <User className="h-6 w-6 cursor-pointer self-center rounded-full dark:text-white" />
+                            )
+                        }
+                    </div>
+                    <span className='mx-3 text-gray-800 dark:text-white'>
+                        {currentUserDetails?.username}
+                    </span>
+                    <button className='hidden bg-blue-400 rounded px-4 py-2 text-xs font-bold text-white hover:bg-blue-500 md:block' onClick={handleSignOut}>
+                        sign out
+                    </button>
+                </div>
+
             </div>
-
-
         </div>
     )
 }

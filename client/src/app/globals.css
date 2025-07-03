@@ -87,3 +87,9 @@ body,
 .timeline ._29NTg {
   @apply dark:text-[#6b7280];
 }
+
+::-webkit-scrollbar{
+  width: 0px;
+  height: 0px;
+
+}

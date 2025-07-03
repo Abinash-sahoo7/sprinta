@@ -3,7 +3,7 @@
 
 import { dataGridClassNames, dataGridSxStyles } from '@/app/lib/utils'
 import { useAppSelector } from '@/app/redux'
-import { useGetTasksByUserQuery } from '@/app/state/api'
+import { useGetAuthUserQuery, useGetTasksByUserQuery } from '@/app/state/api'
 import { Priority, Task } from '@/app/types'
 import Header from '@/components/Header/index'
 import ModelNewTask from '@/components/ModelNewTask'
@@ -75,7 +75,8 @@ const ReuseablePriorityPage = ({ priority }: Props) => {
     const [view, setView] = useState("list");
     const [isModelNewTaskOpen, setIsModelNewtaskOpen] = useState(false);
 
-    const userId = 1;
+    const { data: currentUser } = useGetAuthUserQuery({});
+    const userId = currentUser?.userDetails?.userid ?? null;
     const { data: tasks, isLoading } = useGetTasksByUserQuery(userId || 0, {
         skip: userId === null,
     });

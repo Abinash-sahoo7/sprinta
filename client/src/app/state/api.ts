@@ -1,11 +1,43 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Project, SearchResults, Task, Team, User } from "../types";
+import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    prepareHeaders: async (headers) => {
+      const session = await fetchAuthSession();
+      if (!session) throw new Error("No Session Found ");
+      const { accessToken } = session.tokens ?? {};
+      if (accessToken) {
+        headers.set("Authorization", `Bearer ${accessToken}`);
+      }
+      return headers;
+    },
+  }),
   reducerPath: "api",
   tagTypes: ["Projects", "ListTasks", "Tasks", "Users", "Teams"],
   endpoints: (builder) => ({
+    // Get user information from the ( cognito-User-pool and user-details from the DB )
+    getAuthUser: builder.query({
+      queryFn: async (_, _queryApi, _extraoptions, fetchwithBQ) => {
+        try {
+          const user = await getCurrentUser();
+          const session = await fetchAuthSession();
+          if (!session) throw new Error("No Session Found ");
+
+          const { userSub } = session; // cognitoId
+          const { accessToken } = session.tokens ?? {};
+
+          const userDetailsResponse = await fetchwithBQ(`users/${userSub}`);
+          const userDetails = userDetailsResponse.data as User;
+
+          return { data: { user, userSub, userDetails } };
+        } catch (error: any) {
+          return { error: error.message || "could not fetch the user Data " };
+        }
+      },
+    }),
     // Get all projects from /projects (get)
     getProjects: builder.query<Project[], void>({
       query: () => "projects",
@@ -91,4 +123,5 @@ export const {
   useGetUsersQuery,
   useGetTeamsQuery,
   useGetTasksByUserQuery,
+  useGetAuthUserQuery,
 } = api;

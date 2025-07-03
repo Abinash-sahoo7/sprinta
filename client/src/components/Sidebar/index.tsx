@@ -2,7 +2,8 @@
 
 import { useAppSelector } from '@/app/redux';
 import { setIsSidebarCollapsed } from '@/app/state';
-import { useGetProjectsQuery } from '@/app/state/api';
+import { useGetAuthUserQuery, useGetProjectsQuery } from '@/app/state/api';
+import { signOut } from 'aws-amplify/auth';
 import { AlertCircle, AlertOctagon, AlertTriangle, Briefcase, ChevronDown, ChevronUp, Home, Layers3, LockIcon, LucideIcon, Search, ShieldAlert, User, Users, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,6 +26,20 @@ const Sidebar = () => {
     const dispatch = useDispatch();
     const isSidebarCollapsed = useAppSelector((state) => state.global.isSidebarCollapsed);
 
+    const { data: currentUser } = useGetAuthUserQuery({});
+    console.log(currentUser);
+
+    const handleSignOut = async () => {
+        try {
+            await signOut();
+        } catch (error: any) {
+            console.log('Error while sign out the user : ', error);
+        }
+    }
+
+    if (!currentUser) return null;
+    const currentUserDetails = currentUser?.userDetails;
+
     const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}`;
 
     return (
@@ -45,7 +60,7 @@ const Sidebar = () => {
                 </div>
                 {/* Team */}
                 <div className='flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700'>
-                    <Image src='/logo.png' alt='Logo' width={40} height={40} />
+                    <Image src='https://sprinta-s3-images.s3.us-east-1.amazonaws.com/logo.png' alt='Logo' width={40} height={40} />
                     <div className=''>
                         <h3 className='text-md font-bold tracking-tight dark:text-gray-400'>
                             SPRINTA TEAM
@@ -105,6 +120,33 @@ const Sidebar = () => {
                 )}
 
             </div>
+
+            <div className='z-10 mt-32 w-full bg-white px-4 py-4 dark:bg-black md:hidden'>
+                <div className='flex w-full items-center justify-between'>
+                    <div className='align-center flex justify-center h-9 w-9 hover:bg-gray-100'>
+                        {
+                            !!currentUserDetails?.profilePictureUrl ? (
+                                <Image
+                                    src={`https://sprinta-s3-images.s3.us-east-1.amazonaws.com/${currentUserDetails.profilePictureUrl}`}
+                                    alt={currentUserDetails.username}
+                                    width={100}
+                                    height={50}
+                                    className='h-full rounded-full object-cover'
+                                />
+                            ) : (
+                                <User className="h-6 w-6 cursor-pointer self-center rounded-full dark:text-white" />
+                            )
+                        }
+                    </div>
+                    <span className='mx-3 text-gray-800 dark:text-white'>
+                        {currentUserDetails?.username}
+                    </span>
+                    <button className='bg-blue-400 rounded px-4 py-2 text-xs font-bold text-white hover:bg-blue-500' onClick={handleSignOut}>
+                        sign out
+                    </button>
+                </div>
+            </div>
+
         </div>
     )
 }

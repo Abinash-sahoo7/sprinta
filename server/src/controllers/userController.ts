@@ -18,6 +18,27 @@ export const getAllUsers = async (
   }
 };
 
+export const getUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { cognitoId } = req.params;
+
+    const User = await prisma.user.findUnique({
+      where: {
+        cognitoId: cognitoId,
+      },
+    });
+    if (!User) {
+      res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(User);
+  } catch (err: any) {
+    console.log(`Error occure while the User : ${err.message}`);
+    res.status(500).json({
+      message: `Error occure while the User : ${err.message}`,
+    });
+  }
+};
+
 export const postUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, cognitoId, profilePictureUrl, teamId } = req.body;

@@ -241,7 +241,7 @@ const components = {
 
 const AuthProvider = ({ children }: any) => {
     return (
-        <div className='mt-5'>
+        <div>
             <Authenticator formFields={formFields} components={components}>
                 {({ user }: any) =>
                     user ? (<div>{children}</div>)

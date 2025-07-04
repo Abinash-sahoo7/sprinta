@@ -40,11 +40,11 @@ const Sidebar = () => {
     if (!currentUser) return null;
     const currentUserDetails = currentUser?.userDetails;
 
-    const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}`;
+    const sidebarClassNames = `fixed flex flex-col h-screen shadow-xl transition-all duration-300 z-40 dark:bg-black overflow-y-auto bg-white ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}`;
 
     return (
         <div className={sidebarClassNames}>
-            <div className='flex h-[100%] flex-col justify-start w-full'>
+            <div className='flex flex-col h-full'>
                 {/* logo */}
                 <div className='z-50 flex min-h-[56px] w-64 items-center justify-between bg-white px-6 pt-3 dark:bg-black'>
                     <div className='text-xl font-bold text-gray-800 dark:text-white'>
@@ -82,50 +82,53 @@ const Sidebar = () => {
                     <SidBarLinks href='/teams' icon={Users} label='Teams' />
                 </div>
 
-                {/* show projects */}
-                <button
-                    className='flex w-full items-center justify-between px-8 py-3 text-gray-500'
-                    onClick={() => setShowProjects((prev) => !prev)}
-                >
-                    <span className=''>
-                        Projects
-                    </span>
-                    {showProjects ? (<ChevronUp className='h-5 w-5' />) : (<ChevronDown className='h-5 w-5' />)}
-                </button>
+                <div className='w-full z-10'>
+                    {/* show projects */}
+                    <button
+                        className='flex w-full items-center justify-between px-8 py-3 text-gray-500'
+                        onClick={() => setShowProjects((prev) => !prev)}
+                    >
+                        <span className=''>
+                            Projects
+                        </span>
+                        {showProjects ? (<ChevronUp className='h-5 w-5' />) : (<ChevronDown className='h-5 w-5' />)}
+                    </button>
 
-                {/* List Project */}
-                {showProjects && projects?.map((project) => (
-                    <SidBarLinks key={project.id} href={`/projects/${project.id}`} icon={Briefcase} label={project.name} />
-                ))}
+                    {/* List Project */}
+                    {showProjects && projects?.map((project) => (
+                        <SidBarLinks key={project.id} href={`/projects/${project.id}`} icon={Briefcase} label={project.name} />
+                    ))}
+                </div>
 
-                {/* show priority */}
-                <button
-                    className='flex w-full items-center justify-between px-8 py-3 text-gray-500'
-                    onClick={() => setShowPriority((prev) => !prev)}
-                >
-                    <span className=''>
-                        Priority
-                    </span>
-                    {showPriority ? (<ChevronUp className='h-5 w-5' />) : (<ChevronDown className='h-5 w-5' />)}
-                </button>
+                <div className='w-full z-10'>
+                    {/* show priority */}
+                    <button
+                        className='flex w-full items-center justify-between px-8 py-3 text-gray-500'
+                        onClick={() => setShowPriority((prev) => !prev)}
+                    >
+                        <span className=''>
+                            Priority
+                        </span>
+                        {showPriority ? (<ChevronUp className='h-5 w-5' />) : (<ChevronDown className='h-5 w-5' />)}
+                    </button>
 
-                {showPriority && (
-                    <>
-                        <SidBarLinks href='/priority/urgent' icon={AlertCircle} label='Urgent' />
-                        <SidBarLinks href='/priority/high' icon={ShieldAlert} label='High' />
-                        <SidBarLinks href='/priority/medium' icon={AlertTriangle} label='Medium' />
-                        <SidBarLinks href='/priority/low' icon={AlertOctagon} label='Low' />
-                        <SidBarLinks href='/priority/backlog' icon={Layers3} label='Backlog' />
-                    </>
-                )}
+                    {showPriority && (
+                        <>
+                            <SidBarLinks href='/priority/urgent' icon={AlertCircle} label='Urgent' />
+                            <SidBarLinks href='/priority/high' icon={ShieldAlert} label='High' />
+                            <SidBarLinks href='/priority/medium' icon={AlertTriangle} label='Medium' />
+                            <SidBarLinks href='/priority/low' icon={AlertOctagon} label='Low' />
+                            <SidBarLinks href='/priority/backlog' icon={Layers3} label='Backlog' />
+                        </>
+                    )}
+                </div>
 
-            </div>
+                <div className='flex-grow'></div>
 
-            <div className='z-10 mt-32 w-full bg-white px-4 py-4 dark:bg-black md:hidden'>
-                <div className='flex w-full items-center justify-between'>
-                    <div className='align-center flex justify-center h-9 w-9 hover:bg-gray-100'>
-                        {
-                            !!currentUserDetails?.profilePictureUrl ? (
+                <div className='z-10 w-full bg-white px-4 py-4 dark:bg-black md:hidden'>
+                    <div className='flex w-full items-center justify-between'>
+                        <div className='align-center flex justify-center h-9 w-9 hover:bg-gray-100'>
+                            {!!currentUserDetails?.profilePictureUrl ? (
                                 <Image
                                     src={`https://sprinta-s3-images.s3.us-east-1.amazonaws.com/${currentUserDetails.profilePictureUrl}`}
                                     alt={currentUserDetails.username}
@@ -135,15 +138,18 @@ const Sidebar = () => {
                                 />
                             ) : (
                                 <User className="h-6 w-6 cursor-pointer self-center rounded-full dark:text-white" />
-                            )
-                        }
+                            )}
+                        </div>
+                        <span className='mx-3 text-gray-800 dark:text-white'>
+                            {currentUserDetails?.username}
+                        </span>
+                        <button
+                            className='bg-blue-400 rounded px-4 py-2 text-xs font-bold text-white hover:bg-blue-500'
+                            onClick={handleSignOut}
+                        >
+                            Sign out
+                        </button>
                     </div>
-                    <span className='mx-3 text-gray-800 dark:text-white'>
-                        {currentUserDetails?.username}
-                    </span>
-                    <button className='bg-blue-400 rounded px-4 py-2 text-xs font-bold text-white hover:bg-blue-500' onClick={handleSignOut}>
-                        sign out
-                    </button>
                 </div>
             </div>
 

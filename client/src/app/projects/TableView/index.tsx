@@ -82,7 +82,7 @@ const TableView = ({ id, setIsModelNewTaskOpen }: TableViewProps) => {
         <div className='h-[540px] w-full px-4 pb-8 xl:pb-6'>
             <div className='mt-2 mx-4'>
                 <Header name='Table'
-                    buttonComponet={
+                    buttonComponent={
                         <button className='flex items-center rounded-md bg-blue-primary px-3 py-2 text-white hover:bg-blue-600'
                             onClick={() => setIsModelNewTaskOpen(true)}
                         >

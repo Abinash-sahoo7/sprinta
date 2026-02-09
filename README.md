@@ -216,7 +216,6 @@ Check out the live demo of Sprinta:
 ### 2. Backend Deployment on EC2
 
 1. **Launch EC2 Instance**
-
    - AMI: Amazon Linux 2
    - Instance Type: t3.medium
    - Security Group: Open ports 22 (SSH), 80 (HTTP), 443 (HTTPS), 3000 (API)
@@ -260,7 +259,6 @@ Check out the live demo of Sprinta:
 ### 3. Database Setup with Amazon RDS
 
 1. **Create RDS Instance**
-
    - Engine: PostgreSQL
    - Version: 14 or later
    - Instance Class: db.t3.micro (free tier eligible)
@@ -284,7 +282,6 @@ Check out the live demo of Sprinta:
 ### 4. File Storage with Amazon S3
 
 1. **Create S3 Bucket**
-
    - Bucket name: `sprinta-files-<random-string>`
    - Region: Same as your other resources
    - Block all public access: Yes
@@ -305,7 +302,6 @@ Check out the live demo of Sprinta:
 ### 5. Authentication with Amazon Cognito
 
 1. **Create User Pool**
-
    - Pool name: `sprinta-users`
    - Attributes: Email, Username
    - Password policy: 8+ chars, requires numbers and special chars
@@ -321,13 +317,11 @@ Check out the live demo of Sprinta:
 ### 6. API Gateway Configuration
 
 1. **Create REST API**
-
    - Name: `sprinta-api`
    - Endpoint Type: Regional
    - API Key: Required
 
 2. **Set Up Resources and Methods**
-
    - Create resources matching your API routes
    - Set up CORS for each resource
    - Configure method request/response
@@ -368,13 +362,11 @@ JWT_SECRET=your-jwt-secret
 ### 8. Monitoring and Maintenance
 
 1. **Set Up CloudWatch Alarms**
-
    - CPU utilization > 80%
    - Memory usage > 80%
    - Disk space < 20%
 
 2. **Enable Logging**
-
    - EC2 system logs
    - Application logs
    - API Gateway access logs
@@ -395,3 +387,25 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📧 Contact
 
 For any inquiries, please reach out to the project maintainers.
+
+<!-- Below is the Docker local commands  -->
+
+# Start all services
+
+docker-compose up -d
+
+# View logs
+
+docker-compose logs -f
+
+# Stop all services
+
+docker-compose down
+
+# Rebuild and start
+
+docker-compose up -d --build
+
+# Stop and remove volumes (clean slate)
+
+docker-compose down -v

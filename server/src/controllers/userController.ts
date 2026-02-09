@@ -29,12 +29,13 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
     });
     if (!User) {
       res.status(404).json({ message: "User not found" });
+      return;
     }
     res.status(200).json(User);
   } catch (err: any) {
-    console.log(`Error occure while the User : ${err.message}`);
+    console.log(`Error occurred while fetching User: ${err.message}`);
     res.status(500).json({
-      message: `Error occure while the User : ${err.message}`,
+      message: `Error occurred while fetching User: ${err.message}`,
     });
   }
 };
@@ -51,11 +52,13 @@ export const postUser = async (req: Request, res: Response): Promise<void> => {
         teamId,
       },
     });
-    res.status(201).json({ message: "User Created Successfully : ", newUser });
+    res
+      .status(201)
+      .json({ message: "User Created Successfully", user: newUser });
   } catch (error: any) {
-    console.log(`Error occure while create Users : ${error.message}`);
+    console.log(`Error occurred while creating User: ${error.message}`);
     res.status(500).json({
-      message: `Error occure while create Users : ${error.message}`,
+      message: `Error occurred while creating User: ${error.message}`,
     });
   }
 };
